@@ -29,3 +29,26 @@ create table Patients (
     genre char,
     primary key (id)
 );
+
+create table Actes (
+    id serial,
+    nomActe varchar(50),
+    primary key (id)
+);
+
+create table GroupeActe (
+    id serial,
+    idPatient integer,
+    statue boolean,
+    primary key (id),
+    foreign key (idPatient) references patients(id)
+);
+
+create table DetailsGroupeActe (
+    idGroupeActe integer,
+    idActe integer,
+    prix integer,
+    date date,
+    foreign key (idGroupeActe) references GroupeActe(id),
+    foreign key (idActe) references Actes(id)
+);
