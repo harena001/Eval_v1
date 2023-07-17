@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head th:replace="~{layout :: header}"></head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div th:replace="~{layout :: navbarAdmin}"></div>
+
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content" style="background: linear-gradient(-38deg, #27104e, var(--bs-indigo)), var(--bs-indigo);">
+                <div class="container-fluid" style="margin-top: 22px;">
+                    <h3 class="mb-4" style="color: var(--bs-white);">Nouveau medicament :</h3>
+                    <hr style="color: var(--bs-white);">
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <div>
+                                <form method="post" action="/Admin/saveMedoc">
+                                    <p style="color: #ddacf5;margin-bottom: 3px;">Nom medicament :</p>
+                                    <input class="form-control"
+                                           name="nom"
+                                           type="text">
+                                    <p style="color: #ddacf5;margin-bottom: 3px;margin-top: 5px;">Prix medicament :</p>
+                                    <input class="form-control"
+                                           name="prix"
+                                           type="number">
+                                    <button class="btn btn-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #64379f;margin-top: 14px;">Enregistrer</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+                <footer th:replace="layout :: footer"></footer>
+            </div>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bs-init.js"></script>
+    <script src="/assets/js/theme.js"></script>
+</body>
+
+</html>
