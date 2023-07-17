@@ -1,13 +1,13 @@
 package com.harena.eval_v1.controllers;
 
+import com.harena.eval_v1.fonctions.Fonction1;
 import com.harena.eval_v1.models.Medicaments;
+import com.harena.eval_v1.models.Patient;
 import com.harena.eval_v1.services.MedocService;
+import com.harena.eval_v1.services.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -15,6 +15,8 @@ import java.util.Objects;
 public class AdminController {
 
     public static MedocService medocService = new MedocService();
+    public static PatientService patientService = new PatientService();
+    public static Fonction1 fonction1 = new Fonction1();
 
     @GetMapping("/Admin/Medocs")
     public String listMedocs(Model model){
@@ -64,6 +66,54 @@ public class AdminController {
     public String deleteMedoc(@ModelAttribute("id")String id){
         medocService.deleteMedoc(Integer.parseInt(id));
         return "redirect:/Admin/Medocs";
+    }
+
+    @GetMapping("/Admin/Patient")
+    public String toListePatients(Model model){
+        model.addAttribute("listePatient",patientService.getAllPatient());
+        return "AdminListePatients";
+    }
+
+    @GetMapping("/Admin/newPatient")
+    public String toNewPatient(){
+        return "AdminFormPatient";
+    }
+
+    @PostMapping("/Admin/savePatient")
+    public String savePatient(@ModelAttribute("nom")String nom,
+                              @ModelAttribute("date")String date,
+                              @ModelAttribute("genre")String genre,
+                              Model model){
+        Patient patient = new Patient();
+        patient.setNomPatient(nom);
+        patient.setDateDeNaissance(fonction1.stringToDate(date));
+        patient.setGenre(genre);
+        patientService.savePatient(patient);
+        return "redirect:/Admin/Patient";
+    }
+
+    @GetMapping("/Admin/modif/{idPatient}")
+    public String toFormModifPatient(@PathVariable("idPatient") int idPatient,
+                                     Model model){
+        model.addAttribute("patient",patientService.getById(idPatient));
+        return "AdminModifPatient";
+    }
+
+    @PostMapping("/Admin/updatePatient")
+    public String updatePatient(@ModelAttribute("id") String id,
+                                @ModelAttribute("nom") String nom,
+                                @ModelAttribute("date") String date,
+                                @ModelAttribute("genre") String genre){
+        if (!Objects.equals(nom, "")){
+            patientService.updateNomPatient(Integer.parseInt(id),nom);
+        }
+        if (!Objects.equals(date, "")){
+            patientService.updateDateNaissance(Integer.parseInt(id),fonction1.stringToDate(date));
+        }
+        if (!Objects.equals(genre, "")){
+            patientService.updateGenre(Integer.parseInt(id),genre);
+        }
+        return "redirect:/Admin/Patient";
     }
 
 }

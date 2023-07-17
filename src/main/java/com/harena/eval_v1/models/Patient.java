@@ -7,7 +7,21 @@ public class Patient {
     public int id;
     public String nomPatient;
     public Date dateDeNaissance;
-    public char genre;
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String genre;
+    public int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public int getId() {
         return id;
@@ -33,11 +47,8 @@ public class Patient {
         this.dateDeNaissance = dateDeNaissance;
     }
 
-    public char getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

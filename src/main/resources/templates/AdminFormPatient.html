@@ -14,26 +14,22 @@
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content" style="background: linear-gradient(-38deg, #27104e, var(--bs-indigo)), var(--bs-indigo);">
                 <div class="container-fluid" style="margin-top: 22px;">
-                    <h3 class="mb-4" style="color: var(--bs-white);">Modification d'un patient</h3>
+                    <h3 class="mb-4" style="color: var(--bs-white);">Nouveau patient</h3>
                     <hr style="background: var(--bs-white);">
                     <div class="row row-cols-2">
-                        <form action="/Admin/updatePatient" method="post">
-                            <input type="hidden" name="id" th:value="${patient.id}">
+                        <form action="/Admin/savePatient" method="post">
                         <div class="col">
                             <div class="input-group"><span class="input-group-text" style="background: #64379f;color: var(--bs-white);">Nom Patient :</span>
                                 <input class="form-control"
                                        name="nom"
-                                       type="text"
-                                       th:placeholder="${patient.nomPatient}"></div>
-                            <div class="input-group" style="margin-top: 11px;"><span th:text="Date_de_naissance__ + ${patient.dateDeNaissance}" class="input-group-text" style="background: #64379f;color: var(--bs-white);"></span>
+                                       type="text"></div>
+                            <div class="input-group" style="margin-top: 11px;"><span class="input-group-text" style="background: #64379f;color: var(--bs-white);">Date de naissance :</span>
                                 <input class="form-control"
                                        name="date"
-                                       th:placeholder="${patient.dateDeNaissance}"
                                        type="date"></div>
-                            <div class="input-group" style="margin-top: 11px;"><span th:text="Genre__ + ${patient.genre}" class="input-group-text" style="background: #64379f;color: var(--bs-white);">Genre :</span>
+                            <div class="input-group" style="margin-top: 11px;"><span class="input-group-text" style="background: #64379f;color: var(--bs-white);">Genre :</span>
                                 <select class="form-select" name="genre">
                                     <optgroup label="This is a group">
-                                        <option value="null" selected="">This is item 1</option>
                                         <option value="m">Homme</option>
                                         <option value="f">Femme</option>
                                     </optgroup>
