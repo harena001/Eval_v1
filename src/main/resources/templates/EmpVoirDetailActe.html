@@ -86,7 +86,11 @@
                                 <button class="btn btn-outline-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #27104e;">&nbsp; Valider</button>
                             </form>
                             <hr>
-                            <button class="btn btn-outline-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #9854cb;"><i class="fas fa-rocket"></i>&nbsp; Valider Payement et Facture</button>
+
+                            <form action="/Emp/validePayement" method="post">
+                                <input type="hidden" name="idPatient" th:value="${patient.id}">
+                                <button class="btn btn-outline-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #9854cb;"><i class="fas fa-rocket"></i>&nbsp; Valider Payement et Facture</button>
+                            </form>
                         </div>
                     </div>
                 </div>

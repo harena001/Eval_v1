@@ -36,6 +36,12 @@ create table Actes (
     primary key (id)
 );
 
+create table Depenses (
+    id serial,
+    nomDepense varchar(50),
+    primary key (id)
+);
+
 create table GroupeActe (
     id serial,
     idPatient integer,
@@ -51,4 +57,13 @@ create table DetailsGroupeActe (
     date date,
     foreign key (idGroupeActe) references GroupeActe(id),
     foreign key (idActe) references Actes(id)
+);
+
+create table DepenseFait (
+    id serial,
+    idDepense integer,
+    prix integer,
+    date date,
+    primary key (id),
+    foreign key (idDepense) references Depenses(id)
 );

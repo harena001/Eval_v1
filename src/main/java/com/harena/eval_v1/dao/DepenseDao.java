@@ -1,7 +1,8 @@
 package com.harena.eval_v1.dao;
 
 import com.harena.eval_v1.models.Acte;
-import com.harena.eval_v1.models.Patient;
+import com.harena.eval_v1.models.Depense;
+import com.harena.eval_v1.models.DepenseFait;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActeDao {
+public class DepenseDao {
 
     public Connection getConnection(){
         Connection conn;
@@ -24,18 +25,18 @@ public class ActeDao {
         return conn;
     }
 
-    public List<Acte> getListActe(){
-        List<Acte> rep = new ArrayList<>();
-        Acte acte;
+    public List<Depense> getListDepense(){
+        List<Depense> rep = new ArrayList<>();
+        Depense depense;
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM actes;");
+            ResultSet res = stmt.executeQuery("SELECT * FROM depenses;");
             while(res.next()){
-                acte = new Acte();
-                acte.setId(res.getInt(1));
-                acte.setNomActe(res.getString(2));
-                rep.add(acte);
+                depense = new Depense();
+                depense.setId(res.getInt(1));
+                depense.setNomDepense(res.getString(2));
+                rep.add(depense);
             }
             con.close();
         } catch (Exception e) {
@@ -44,12 +45,12 @@ public class ActeDao {
         return rep;
     }
 
-    public void saveActe(String nom) {
+    public void saveDepense(String nom) {
         try{
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             ResultSet res;
-            String sql = "insert into actes(nomacte) values ('"+nom+"')";
+            String sql = "insert into depenses(nomdepense) values ('"+nom+"')";
             //System.out.println(sql);
             res = stmt.executeQuery(sql);
             while(res.next()){
@@ -61,36 +62,42 @@ public class ActeDao {
         }
     }
 
-    public void updateActe(int idActe, String nom){
+    public void updateDepense(int idDepense, String nom){
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery("UPDATE actes set nomacte='"+nom+"' where id="+idActe+";");
+            ResultSet res = stmt.executeQuery("UPDATE depenses set nomdepense='"+nom+"' where id="+idDepense+";");
             con.close();
         } catch (Exception e) {
             //throw new RuntimeException(e);
         }
     }
 
-    public void deleteActes(int idActe){
+    public void deleteDepense(int idDepense){
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery("DELETE from actes where id="+idActe+";");
+            ResultSet res = stmt.executeQuery("DELETE from depenses where id="+idDepense+";");
             con.close();
         } catch (Exception e) {
             //throw new RuntimeException(e);
         }
     }
 
-    public void validerPayement(int idGroupeActe){
-        try {
-            Connection con = getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery("UPDATE groupeacte set statue="+true+" where id="+idGroupeActe+";");
-            con.close();
-        } catch (Exception e) {
-            //throw new RuntimeException(e);
+    public void insertDepenseFait(DepenseFait depenseFait){
+        try{
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet res;
+            String sql = "insert into depensefait(iddepense, prix, date) values ("+depenseFait.getIdDepense()+","+depenseFait.getPrix()+",'"+depenseFait.getDate()+"')";
+            //System.out.println(sql);
+            res = stmt.executeQuery(sql);
+            while(res.next()){
+            }
+            conn.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
         }
     }
 

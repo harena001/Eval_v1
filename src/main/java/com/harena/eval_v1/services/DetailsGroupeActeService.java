@@ -23,4 +23,8 @@ public class DetailsGroupeActeService {
         detailsGroupeActeDao.saveDetailsGroupeActe(idGroupeActe,idActe,prix,date);
     }
 
+    public int getIdGroupeActeAuDebut(int idPatient){
+        return detailsGroupeActeDao.getIdGroupeActe(idPatient);
+    }
+
 }

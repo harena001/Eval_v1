@@ -2,27 +2,27 @@ package com.harena.eval_v1.models;
 
 import java.util.Date;
 
-public class DetailsGroupeActe {
+public class DepenseFait {
 
-    public String nomActe;
+    public int id;
+    public int idDepense;
     public int prix;
     public Date date;
-    public int idGroupeActe;
 
-    public int getIdGroupeActe() {
-        return idGroupeActe;
+    public int getId() {
+        return id;
     }
 
-    public void setIdGroupeActe(int idGroupeActe) {
-        this.idGroupeActe = idGroupeActe;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNomActe() {
-        return nomActe;
+    public int getIdDepense() {
+        return idDepense;
     }
 
-    public void setNomActe(String nomActe) {
-        this.nomActe = nomActe;
+    public void setIdDepense(int idDepense) {
+        this.idDepense = idDepense;
     }
 
     public int getPrix() {

@@ -1,12 +1,10 @@
 package com.harena.eval_v1.controllers;
 
 import com.harena.eval_v1.fonctions.Fonction1;
+import com.harena.eval_v1.models.DepenseFait;
 import com.harena.eval_v1.models.DetailsGroupeActe;
 import com.harena.eval_v1.models.Patient;
-import com.harena.eval_v1.services.ActeService;
-import com.harena.eval_v1.services.DetailsGroupeActeService;
-import com.harena.eval_v1.services.EmployeeService;
-import com.harena.eval_v1.services.PatientService;
+import com.harena.eval_v1.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +24,7 @@ public class EmployeController {
     public static DetailsGroupeActeService detailsGroupeActeService = new DetailsGroupeActeService();
     public static Fonction1 fonction1 = new Fonction1();
     public static ActeService acteService = new ActeService();
+    public static DepenseService depenseService = new DepenseService();
 
     @PostMapping("/Emp/verifLogin")
     public String verifLogin(@RequestParam(name = "email") String email,
@@ -35,10 +34,21 @@ public class EmployeController {
             //List<Devis> liste = devisService.getDevisHome();
             //model.addAttribute("liste",liste);
             model.addAttribute("listePatient",patientService.getAllPatient());
-            return "EmpListePatients";
+            return "redirect:/Emp/toPageRecette";
         }else{
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/Emp/toPageRecette")
+    public String toRecettePage(Model model){
+        model.addAttribute("listePatient",patientService.getAllPatient());
+        return "EmpListePatients";
+    }
+
+    @GetMapping("/Emp/logout")
+    public String empLogout(){
+        return "redirect:/";
     }
 
     @GetMapping("/Emp/voirDetailActe/{idPatient}")
@@ -50,6 +60,8 @@ public class EmployeController {
         model.addAttribute("listeDetails",list);
         int totale = fonction1.totalePrix(list);
         model.addAttribute("totale",totale);
+
+        //model.addAttribute("idGroupeActe",list.get(0).getIdGroupeActe());
 
         model.addAttribute("listeActe",acteService.getListActe());
 
@@ -65,5 +77,34 @@ public class EmployeController {
                 Integer.parseInt(prix),fonction1.stringToDate(date));
         return "redirect:/Emp/voirDetailActe/"+idPatient;
     }
+
+    @GetMapping("/Emp/Depenses")
+    public String toFormDepense(Model model){
+        model.addAttribute("liste",depenseService.getListDepense());
+        return "EmpFormDepense";
+    }
+
+    @PostMapping("/Emp/ajoutDepense")
+    public String insertDepenseFait(@RequestParam(name = "idDepense") String idDepense,
+                                    @RequestParam(name = "prix") String prix,
+                                    @RequestParam(name = "date") String date){
+        DepenseFait depenseFait = new DepenseFait();
+        depenseFait.setIdDepense(Integer.parseInt(idDepense));
+        depenseFait.setPrix(Integer.parseInt(prix));
+        depenseFait.setDate(fonction1.stringToDate(date));
+        depenseService.insertDepenseFait(depenseFait);
+        return "redirect:/Emp/Depenses";
+    }
+
+    @PostMapping("/Emp/validePayement")
+    public String validerPayement(@RequestParam(name = "idPatient") String idPatient){
+        int idGroupeActe = detailsGroupeActeService.getIdGroupeActeAuDebut(Integer.parseInt(idPatient));
+        if (idGroupeActe == 0){
+            return "redirect:/Emp/voirDetailActe/"+idPatient;
+        }
+        acteService.validerPayement(idGroupeActe);
+        return "redirect:/Emp/toPageRecette";
+    }
+
 
 }

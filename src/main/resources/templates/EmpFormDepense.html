@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head th:replace="~{layout :: header}"></head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+
+                <div th:replace="~{layout :: navbarEmp}"></div>
+
+                <div class="container-fluid">
+                    <hr>
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <hr>
+                            <form action="/Emp/ajoutDepense" method="post">
+                                <h5>Ajout nouvelle depense :</h5>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text" style="background: #ddacf5;color: var(--bs-gray-900);">Depense :</span>
+                                    <select class="form-select" name="idDepense">
+                                        <optgroup label="Depense">
+                                            <div th:each="liste:${liste}">
+                                                <option th:value="${liste.id}" th:text="${liste.nomDepense}">This is item 1</option>
+                                            </div>
+                                        </optgroup>
+                                    </select></div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text" style="background: #ddacf5;color: var(--bs-gray-900);">Prix :</span>
+                                    <input class="form-control"
+                                           name="prix"
+                                           type="number">
+                                </div>
+                                <div class="input-group" style="margin-top: 11px;"><span class="input-group-text" style="background: #ddacf5;color: var(--bs-gray-900);">Date :</span>
+                                    <input class="form-control"
+                                           name="date"
+                                           type="date">
+                                </div>
+                                <button class="btn btn-outline-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #27104e;">&nbsp; Valider</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer th:replace="layout :: footer"></footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bs-init.js"></script>
+    <script src="/assets/js/theme.js"></script>
+</body>
+
+</html>

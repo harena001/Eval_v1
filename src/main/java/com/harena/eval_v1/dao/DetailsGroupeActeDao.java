@@ -31,12 +31,13 @@ public class DetailsGroupeActeDao {
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT nomacte, prix, date FROM v_detailsacte where idpatient="+idPatient+" and statue=false");
+            ResultSet res = stmt.executeQuery("SELECT idgroupeacte,nomacte,prix,date FROM v_detailsacte where idpatient="+idPatient+" and statue=false");
             while(res.next()){
                 detailsGroupeActe = new DetailsGroupeActe();
-                detailsGroupeActe.setNomActe(res.getString(1));
-                detailsGroupeActe.setPrix(res.getInt(2));
-                detailsGroupeActe.setDate(res.getDate(3));
+                detailsGroupeActe.setIdGroupeActe(res.getInt(1));
+                detailsGroupeActe.setNomActe(res.getString(2));
+                detailsGroupeActe.setPrix(res.getInt(3));
+                detailsGroupeActe.setDate(res.getDate(4));
                 rep.add(detailsGroupeActe);
             }
             con.close();
