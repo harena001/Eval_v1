@@ -1,6 +1,8 @@
 package com.harena.eval_v1.controllers;
 
 import com.harena.eval_v1.fonctions.Fonction1;
+import com.harena.eval_v1.models.Acte;
+import com.harena.eval_v1.models.Depense;
 import com.harena.eval_v1.models.Medicaments;
 import com.harena.eval_v1.models.Patient;
 import com.harena.eval_v1.services.ActeService;
@@ -127,24 +129,42 @@ public class AdminController {
     }
 
     @PostMapping("/Admin/newActe")
-    public String saveActe(@RequestParam(name = "nom") String nom){
-        acteService.saveActe(nom);
+    public String saveActe(@RequestParam(name = "nom") String nom,
+                           @RequestParam(name = "budget") String budget,
+                           @RequestParam(name = "code") String code){
+        Acte acte = new Acte();
+        acte.setNomActe(nom);
+        acte.setBudgetAnnuel(Integer.parseInt(budget));
+        acte.setCode(code);
+        acteService.saveActe(acte);
         return "redirect:/Admin/Actes";
     }
 
-    @PostMapping("/Admin/updateActe")
+    @PostMapping("/Admin/updateNomActe")
     public String updateActe(@RequestParam(name = "idActe") String idActe,
                              @RequestParam(name = "nom") String nom){
-        acteService.updateActe(Integer.parseInt(idActe),nom);
+        acteService.updateNomActe(Integer.parseInt(idActe),nom);
         return "redirect:/Admin/Actes";
     }
+    @PostMapping("/Admin/updateBudgetAnnuelActe")
+    public String updateBudgetAnnuelActe(@RequestParam(name = "idActe") String idActe,
+                             @RequestParam(name = "budget") String budget){
+        acteService.updateBudgetAnnuelActe(Integer.parseInt(idActe),Integer.parseInt(budget));
+        return "redirect:/Admin/Actes";
+    }
+    @PostMapping("/Admin/updateCodeActe")
+    public String updateCodeActe(@RequestParam(name = "idActe") String idActe,
+                             @RequestParam(name = "code") String code){
+        acteService.updateCodeActe(Integer.parseInt(idActe),code);
+        return "redirect:/Admin/Actes";
+    }
+
 
     @PostMapping("/Admin/deleteActe")
     public String deleteActe(@RequestParam(name = "idActe") String idActe){
         acteService.deleteActe(Integer.parseInt(idActe));
         return "redirect:/Admin/Actes";
     }
-
 
 
     @GetMapping("/Admin/Depenses")
@@ -154,15 +174,33 @@ public class AdminController {
     }
 
     @PostMapping("/Admin/newDepense")
-    public String saveDepense(@RequestParam(name = "nom") String nom){
-        depenseService.saveDepence(nom);
+    public String saveDepense(@RequestParam(name = "nom") String nom,
+                              @RequestParam(name = "budget") String budget,
+                              @RequestParam(name = "code") String code){
+        Depense depense = new Depense();
+        depense.setNomDepense(nom);
+        depense.setBudgetAnnuel(Integer.parseInt(budget));
+        depense.setCode(code);
+        depenseService.saveDepense(depense);
         return "redirect:/Admin/Depenses";
     }
 
-    @PostMapping("/Admin/updateDepense")
-    public String updateDepense(@RequestParam(name = "idDepense") String idDepense,
+    @PostMapping("/Admin/updateNomDepense")
+    public String updateNomDepense(@RequestParam(name = "idDepense") String idDepense,
                              @RequestParam(name = "nom") String nom){
-        depenseService.updateDepense(Integer.parseInt(idDepense),nom);
+        depenseService.updateNomDepense(Integer.parseInt(idDepense),nom);
+        return "redirect:/Admin/Depenses";
+    }
+    @PostMapping("/Admin/updateBudgetAnnuelDepense")
+    public String updateBudgetAnnuelDepense(@RequestParam(name = "idDepense") String idDepense,
+                                   @RequestParam(name = "budget") String budget){
+        depenseService.updateBudgetAnnuelDepense(Integer.parseInt(idDepense),Integer.parseInt(budget));
+        return "redirect:/Admin/Depenses";
+    }
+    @PostMapping("/Admin/updateCodeDepense")
+    public String updateCodeDepense(@RequestParam(name = "idDepense") String idDepense,
+                                   @RequestParam(name = "code") String code){
+        depenseService.updateCodeDepense(Integer.parseInt(idDepense),code);
         return "redirect:/Admin/Depenses";
     }
 

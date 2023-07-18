@@ -33,12 +33,16 @@ create table Patients (
 create table Actes (
     id serial,
     nomActe varchar(50),
+    budgetAnnuel integer,
+    code varchar(10),
     primary key (id)
 );
 
 create table Depenses (
     id serial,
     nomDepense varchar(50),
+    budgetAnnuel integer,
+    code varchar(10),
     primary key (id)
 );
 

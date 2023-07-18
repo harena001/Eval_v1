@@ -4,6 +4,24 @@ public class Acte {
 
     public int id;
     public String nomActe;
+    public int budgetAnnuel;
+    public String code;
+
+    public int getBudgetAnnuel() {
+        return budgetAnnuel;
+    }
+
+    public void setBudgetAnnuel(int budgetAnnuel) {
+        this.budgetAnnuel = budgetAnnuel;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public int getId() {
         return id;

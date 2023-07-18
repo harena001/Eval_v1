@@ -4,6 +4,24 @@ public class Depense {
 
     public int id;
     public String nomDepense;
+    public int budgetAnnuel;
+    public String code;
+
+    public int getBudgetAnnuel() {
+        return budgetAnnuel;
+    }
+
+    public void setBudgetAnnuel(int budgetAnnuel) {
+        this.budgetAnnuel = budgetAnnuel;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public int getId() {
         return id;

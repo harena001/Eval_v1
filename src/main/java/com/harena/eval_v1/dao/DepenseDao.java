@@ -36,6 +36,8 @@ public class DepenseDao {
                 depense = new Depense();
                 depense.setId(res.getInt(1));
                 depense.setNomDepense(res.getString(2));
+                depense.setBudgetAnnuel(res.getInt(3));
+                depense.setCode(res.getString(4));
                 rep.add(depense);
             }
             con.close();
@@ -45,12 +47,12 @@ public class DepenseDao {
         return rep;
     }
 
-    public void saveDepense(String nom) {
+    public void saveDepense(Depense depense) {
         try{
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             ResultSet res;
-            String sql = "insert into depenses(nomdepense) values ('"+nom+"')";
+            String sql = "insert into depenses(nomdepense, budgetannuel, code) values ('"+depense.getNomDepense()+"',"+depense.getBudgetAnnuel()+",'"+depense.getCode()+"')";
             //System.out.println(sql);
             res = stmt.executeQuery(sql);
             while(res.next()){
@@ -62,11 +64,31 @@ public class DepenseDao {
         }
     }
 
-    public void updateDepense(int idDepense, String nom){
+    public void updateNomDepense(int idDepense, String nom){
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery("UPDATE depenses set nomdepense='"+nom+"' where id="+idDepense+";");
+            con.close();
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+        }
+    }
+    public void updateBudgetAnnuelDepense(int idDepense, int budgetAnnuel){
+        try {
+            Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("UPDATE depenses set budgetannuel="+budgetAnnuel+" where id="+idDepense+";");
+            con.close();
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+        }
+    }
+    public void updateCodeDepense(int idDepense, String code){
+        try {
+            Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("UPDATE depenses set code='"+code+"' where id="+idDepense+";");
             con.close();
         } catch (Exception e) {
             //throw new RuntimeException(e);

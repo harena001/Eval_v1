@@ -21,20 +21,30 @@
                         </div>
                         <div class="card-body">
                             <form action="/Admin/newActe" method="post">
-                                <div class="input-group"><span class="input-group-text">Nom nouveau acte :</span><input class="form-control"
-                                                                                                                        name="nom"
-                                                                                                                        type="text">
-                                    <button class="btn btn-primary" type="submit">Valider</button>
-                                </div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Nom nouveau acte :</span>
+                                    <input class="form-control"
+                                           name="nom"
+                                           type="text"></div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Budget annuel acte :</span>
+                                    <input class="form-control"
+                                           name="budget"
+                                           type="number"></div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Code acte :</span>
+                                    <input class="form-control"
+                                           name="code"
+                                           type="text">
+                                </div><button class="btn btn-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #64379f;">Valider</button>
                             </form>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable1">
                                     <thead>
                                         <tr>
                                             <th>Nom acte</th>
-                                            <th>Prix</th>
+                                            <th>Budget annuel</th>
+                                            <th>Code</th>
                                             <th>Update nom</th>
-                                            <th>Update prix</th>
+                                            <th>Update budget</th>
+                                            <th>Update code</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,10 +53,13 @@
                                                 <p th:text="${liste.nomActe}">Acte 1</p>
                                             </td>
                                             <td>
-                                                <p>14000 Ar</p>
+                                                <p th:text="${liste.budgetAnnuel}">14000 Ar</p>
                                             </td>
                                             <td>
-                                                <form action="/Admin/updateActe" method="post">
+                                                <p th:text="${liste.code}">Act</p>
+                                            </td>
+                                            <td>
+                                                <form action="/Admin/updateNomActe" method="post">
                                                     <input type="hidden" name="idActe" th:value="${liste.id}">
                                                     <div class="input-group">
                                                         <input class="form-control"
@@ -58,8 +71,30 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <div class="input-group"><input class="form-control" type="number" placeholder="14000" style="width: 120px;"><button class="btn" type="button" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                                <form action="/Admin/updateBudgetAnnuelActe" method="post">
+                                                <div class="input-group">
+                                                    <input type="hidden" name="idActe" th:value="${liste.id}">
+                                                    <input class="form-control"
+                                                           name="budget"
+                                                           type="number"
+                                                           th:placeholder="${liste.budgetAnnuel}"
+                                                           style="width: 120px;">
+                                                    <button class="btn" type="button" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                                </form>
                                             </td>
+                                            <td>
+                                                <form action="/Admin/updateCodeActe" method="post">
+                                                    <input type="hidden" name="idActe" th:value="${liste.id}">
+                                                    <div class="input-group">
+                                                        <input class="form-control"
+                                                               type="text"
+                                                               style="width: 120px;"
+                                                               name="code"
+                                                               th:placeholder="${liste.code}">
+                                                        <button class="btn" type="submit" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                                </form>
+                                            </td>
+
                                             <td>
                                                 <form action="/Admin/deleteActe" method="post">
                                                     <input type="hidden" name="idActe" th:value="${liste.id}">

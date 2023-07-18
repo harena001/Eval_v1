@@ -16,12 +16,18 @@ public class DepenseService {
         return depenseDao.getListDepense();
     }
 
-    public void saveDepence (String nom){
-        depenseDao.saveDepense(nom);
+    public void saveDepense (Depense depense){
+        depenseDao.saveDepense(depense);
     }
 
-    public void updateDepense(int idDepense, String nom){
-        depenseDao.updateDepense(idDepense,nom);
+    public void updateNomDepense(int idDepense, String nom){
+        depenseDao.updateNomDepense(idDepense,nom);
+    }
+    public void updateBudgetAnnuelDepense(int idDepense, int budget){
+        depenseDao.updateBudgetAnnuelDepense(idDepense,budget);
+    }
+    public void updateCodeDepense(int idDepense, String code){
+        depenseDao.updateCodeDepense(idDepense,code);
     }
 
     public void deleteDepense(int idDepense){

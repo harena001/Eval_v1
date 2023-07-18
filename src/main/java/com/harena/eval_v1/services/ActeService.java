@@ -13,12 +13,18 @@ public class ActeService {
         return acteDao.getListActe();
     }
 
-    public void saveActe(String nom){
-        acteDao.saveActe(nom);
+    public void saveActe(Acte acte){
+        acteDao.saveActe(acte);
     }
 
-    public void updateActe(int idActe, String nom){
-        acteDao.updateActe(idActe,nom);
+    public void updateNomActe(int idActe, String nom){
+        acteDao.updateNomActe(idActe,nom);
+    }
+    public void updateBudgetAnnuelActe(int idActe, int budgetAnnuel){
+        acteDao.updateBudgetAnnuelActe(idActe,budgetAnnuel);
+    }
+    public void updateCodeActe(int idActe, String code){
+        acteDao.updateCodeActe(idActe,code);
     }
 
     public void deleteActe(int idActe){

@@ -17,56 +17,91 @@
                     <h3 class="mb-4" style="color: var(--bs-white);">Depenses</h3>
                     <div class="card shadow">
                         <div class="card-header py-3" style="background: #27104e;">
-                            <p class="float-start m-0 fw-bold" style="color: #ddacf5;">Liste Depense</p><a class="btn btn-primary float-end" role="button" style="background: #9854cb;"><i class="fa fa-plus" style="margin-right: 8px;"></i>Nouvelle depense</a>
+                            <p class="float-start m-0 fw-bold" style="color: #ddacf5;">Liste depenses</p><a class="btn btn-primary float-end" role="button" style="background: #9854cb;"><i class="fa fa-plus" style="margin-right: 8px;"></i>Nouvelle depense</a>
                         </div>
                         <div class="card-body">
                             <form action="/Admin/newDepense" method="post">
-                                <div class="input-group"><span class="input-group-text">Nom nouvelle depense :</span><input class="form-control"
-                                                                                                                        name="nom"
-                                                                                                                        type="text">
-                                    <button class="btn btn-primary" type="submit">Valider</button>
-                                </div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Nom nouvelle depense :</span>
+                                    <input class="form-control"
+                                           name="nom"
+                                           type="text"></div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Budget annuel depense :</span>
+                                    <input class="form-control"
+                                           name="budget"
+                                           type="number"></div>
+                                <div class="input-group" style="margin-bottom: 10px;"><span class="input-group-text">Code depense :</span>
+                                    <input class="form-control"
+                                           name="code"
+                                           type="text">
+                                </div><button class="btn btn-light d-block btn-user w-100" type="submit" style="color: rgb(255, 255, 255);background: #64379f;">Valider</button>
                             </form>
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable1">
                                     <thead>
-                                        <tr>
-                                            <th>Nom depense</th>
-                                            <th>Prix</th>
-                                            <th>Update nom</th>
-                                            <th>Update prix</th>
-                                        </tr>
+                                    <tr>
+                                        <th>Nom depense</th>
+                                        <th>Budget annuel</th>
+                                        <th>Code</th>
+                                        <th>Update nom</th>
+                                        <th>Update budget</th>
+                                        <th>Update code</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="liste:${liste}">
-                                            <td>
-                                                <p th:text="${liste.nomDepense}">Acte 1</p>
-                                            </td>
-                                            <td>
-                                                <p>14000 Ar</p>
-                                            </td>
-                                            <td>
-                                                <form action="/Admin/updateDepense" method="post">
+                                    <tr th:each="liste:${liste}">
+                                        <td>
+                                            <p th:text="${liste.nomDepense}">depense 1</p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${liste.budgetAnnuel}">14000 Ar</p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${liste.code}">Act</p>
+                                        </td>
+                                        <td>
+                                            <form action="/Admin/updateNomDepense" method="post">
+                                                <input type="hidden" name="idDepense" th:value="${liste.id}">
+                                                <div class="input-group">
+                                                    <input class="form-control"
+                                                           type="text"
+                                                           style="width: 120px;"
+                                                           name="nom"
+                                                           th:placeholder="${liste.nomDepense}">
+                                                    <button class="btn" type="submit" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="/Admin/updateBudgetAnnuelDepense" method="post">
+                                                <div class="input-group">
                                                     <input type="hidden" name="idDepense" th:value="${liste.id}">
-                                                    <div class="input-group">
-                                                        <input class="form-control"
-                                                               type="text"
-                                                               style="width: 120px;"
-                                                               name="nom"
-                                                               th:placeholder="${liste.nomDepense}">
-                                                        <button class="btn" type="submit" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <div class="input-group"><input class="form-control" type="number" placeholder="14000" style="width: 120px;"><button class="btn" type="button" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
-                                            </td>
-                                            <td>
-                                                <form action="/Admin/deleteDepense" method="post">
-                                                    <input type="hidden" name="idDepense" th:value="${liste.id}">
-                                                    <button class="btn btn-dark" type="submit" style="background: #27104e;"><i class="icon ion-android-delete"></i></button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                                    <input class="form-control"
+                                                           name="budget"
+                                                           type="number"
+                                                           th:placeholder="${liste.budgetAnnuel}"
+                                                           style="width: 120px;">
+                                                    <button class="btn" type="button" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="/Admin/updateCodeDepense" method="post">
+                                                <input type="hidden" name="idDepense" th:value="${liste.id}">
+                                                <div class="input-group">
+                                                    <input class="form-control"
+                                                           type="text"
+                                                           style="width: 120px;"
+                                                           name="code"
+                                                           th:placeholder="${liste.code}">
+                                                    <button class="btn" type="submit" style="background: #ddacf5;color: var(--bs-gray-100);">Valider</button></div>
+                                            </form>
+                                        </td>
+
+                                        <td>
+                                            <form action="/Admin/deleteDepense" method="post">
+                                                <input type="hidden" name="idDepense" th:value="${liste.id}">
+                                                <button class="btn btn-dark" type="submit" style="background: #27104e;"><i class="icon ion-android-delete"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
