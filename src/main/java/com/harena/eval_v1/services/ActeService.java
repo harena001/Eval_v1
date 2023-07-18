@@ -35,4 +35,9 @@ public class ActeService {
         acteDao.validerPayement(idGroupeActe);
     }
 
+
+    public List<Acte> getListeActeRecetteFin(int idMois,int annee){
+        return acteDao.getListeActeRecetteFinal(getListActe(),idMois,annee);
+    }
+
 }

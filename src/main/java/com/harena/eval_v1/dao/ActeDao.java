@@ -1,6 +1,7 @@
 package com.harena.eval_v1.dao;
 
 import com.harena.eval_v1.models.Acte;
+import com.harena.eval_v1.models.DashRecette;
 import com.harena.eval_v1.models.Patient;
 
 import java.sql.Connection;
@@ -114,6 +115,81 @@ public class ActeDao {
         } catch (Exception e) {
             //throw new RuntimeException(e);
         }
+    }
+
+    public int getBudgetAnnuel(int idActe,Connection con){
+        int rep = 0;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT budgetannuel FROM actes where id="+idActe+";");
+            while(res.next()){
+                rep = res.getInt(1);
+            }
+            //con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
+    }
+
+    public List<DashRecette> setBudgetAnnuelDash(List<DashRecette> list){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setBudget(getBudgetAnnuel(list.get(i).getIdActe(),con));
+                //list.get(i).setRealisation( (list.get(i).getReel() * 100 ) / getBudgetAnnuel(list.get(i).getIdActe(),con) );
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<Acte> setBudgetPourActe(List<Acte> list){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setBudgetAnnuel(getBudgetAnnuel(list.get(i).getId(),con));
+                //list.get(i).setBudget(getBudgetAnnuel(list.get(i).getIdActe(),con));
+                //list.get(i).setRealisation( (list.get(i).getReel() * 100 ) / getBudgetAnnuel(list.get(i).getIdActe(),con) );
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+
+
+    public int getReelParIdActe(int idMois, int annee,int idActe, Connection con){
+        int rep = 0;
+        try {
+            //Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT sum FROM v_dashrecette where mois="+idMois+" and annee="+annee+" and idacte="+idActe+";");
+            while(res.next()){
+                rep = res.getInt(1);
+            }
+            //con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
+    }
+
+    public List<Acte> getListeActeRecetteFinal(List<Acte> liste,int idMois, int annee){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < liste.size(); i++) {
+                liste.get(i).setReel(getReelParIdActe(idMois,annee,liste.get(i).getId(),con));
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return liste;
     }
 
 }

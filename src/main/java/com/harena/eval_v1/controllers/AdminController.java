@@ -1,18 +1,13 @@
 package com.harena.eval_v1.controllers;
 
 import com.harena.eval_v1.fonctions.Fonction1;
-import com.harena.eval_v1.models.Acte;
-import com.harena.eval_v1.models.Depense;
-import com.harena.eval_v1.models.Medicaments;
-import com.harena.eval_v1.models.Patient;
-import com.harena.eval_v1.services.ActeService;
-import com.harena.eval_v1.services.DepenseService;
-import com.harena.eval_v1.services.MedocService;
-import com.harena.eval_v1.services.PatientService;
+import com.harena.eval_v1.models.*;
+import com.harena.eval_v1.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -23,6 +18,7 @@ public class AdminController {
     public static Fonction1 fonction1 = new Fonction1();
     public static ActeService acteService = new ActeService();
     public static DepenseService depenseService = new DepenseService();
+    public static DashRecetteService dashRecetteService = new DashRecetteService();
 
     @GetMapping("/Admin/Medocs")
     public String listMedocs(Model model){
@@ -30,13 +26,66 @@ public class AdminController {
         return "AdminListeMedocs";
     }
 
+    @PostMapping("/Admin/ToDash1")
+    public String toDash1(@ModelAttribute("idMois")String idMois,
+                          @ModelAttribute("annee")String annee){
+        return "redirect:/Admin/Dash/"+idMois+"/"+annee;
+    }
+
+    @GetMapping("/Admin/Dash/{idMois}/{annee}")
+    public String toDachboard(@PathVariable("idMois") String idMois,
+                              @ModelAttribute("annee")String anne,
+                              Model model){
+
+        int mois = Integer.parseInt(idMois);
+        int annee = Integer.parseInt(anne);
+
+        //List<DashRecette> liste = dashRecetteService.getDashRecette(mois,annee);
+        //liste = fonction1.setPourcentage(liste);
+        List<Acte> liste = acteService.getListeActeRecetteFin(mois,annee);
+        liste = fonction1.setPourcentage(liste);
+        model.addAttribute("listeRecette",liste);
+
+        int totalReel = fonction1.totaleReel(liste);
+        model.addAttribute("totalReel",totalReel);
+        int totalBudget = fonction1.totaleBudget(liste);
+        model.addAttribute("totalBudget",totalBudget);
+        int totalRea = fonction1.totaleRealisation(liste);
+        model.addAttribute("totalRea",totalRea);
+
+        List<Depense> listeDepense = depenseService.getListeDepenseFin(mois,annee);
+        listeDepense = fonction1.setPourcentageDepense(listeDepense);
+        model.addAttribute("listeDepense",listeDepense);
+
+        int totalReeld = fonction1.totaleReeld(listeDepense);
+        model.addAttribute("totalReeld",totalReeld);
+        int totalBudgetd = fonction1.totaleBudgetd(listeDepense);
+        model.addAttribute("totalBudgetd",totalBudgetd);
+        int totalRead = fonction1.totaleRealisationd(listeDepense);
+        model.addAttribute("totalRead",totalRead);
+
+        model.addAttribute("totalReelBenef",totalReel + totalReeld);
+        model.addAttribute("totalBudgetBenef",totalBudget + totalBudgetd);
+        model.addAttribute("totalReaBenef",(totalRea + totalRead) / 2);
+
+        return "index";
+    }
+
     @PostMapping("/verifLoginAdmin")
-    public String verifAdmin(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password){
+    public String verifAdmin(@RequestParam(name = "email") String email,
+                             @RequestParam(name = "password") String password,
+                             @ModelAttribute("idMois")String idMois,
+                             @ModelAttribute("annee")String annee){
         if (Objects.equals(email, "admin") && Objects.equals(password, "admin")){
-            return "redirect:/Admin/Medocs";
+            return "redirect:/Admin/Dash/"+idMois+"/"+annee;
         }else{
             return "redirect:/admin";
         }
+    }
+
+    @GetMapping("/Admin/logout")
+    public String AdminLogout(){
+        return "redirect:/";
     }
 
     @GetMapping("/Admin/newMedoc")

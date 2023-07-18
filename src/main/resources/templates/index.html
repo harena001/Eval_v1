@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head th:replace="~{layout :: header}"></head>
+
+<body id="page-top">
+    <div id="wrapper">
+
+        <div th:replace="~{layout :: navbarAdmin}"></div>
+
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0">Dashboard</h3>
+                    </div>
+                    <div>
+                        <form action="/Admin/ToDash1" method="post">
+                        <div class="input-group">
+                                <select class="form-select" name="idMois">
+                                    <optgroup label="Mois">
+                                        <option value="0" selected="">Mois</option>
+                                        <option value="1">Janvier</option>
+                                        <option value="2">Fevrier</option>
+                                        <option value="3">Mars</option>
+                                        <option value="4">Avril</option>
+                                        <option value="5">Mai</option>
+                                        <option value="6">Juin</option>
+                                        <option value="7">Juillet</option>
+                                        <option value="8">Aout</option>
+                                        <option value="9">Septembre</option>
+                                        <option value="10">Octobre</option>
+                                        <option value="11">Novembre</option>
+                                        <option value="12">Decembre</option>
+                                    </optgroup>
+                                </select>
+                                <select class="form-select" name="annee">
+                                    <optgroup label="Annees">
+                                        <option value="0" selected="">Annee</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                    </optgroup>
+                                </select>
+                                <button class="btn btn-primary" type="submit">Voir</button>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <div class="card shadow" style="margin-top: 16px;">
+                                <div class="card-header py-3" style="background: #27104e;">
+                                    <p class="text-primary m-0 fw-bold">Recette</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable1">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type Acte</th>
+                                                    <th>Reel</th>
+                                                    <th>Budget</th>
+                                                    <th>Realisation (en %)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="listeRecette:${listeRecette}">
+                                                    <td th:text="${listeRecette.nomActe}"></td>
+                                                    <td th:text="${listeRecette.reel}"></td>
+                                                    <td th:text="${listeRecette.budgetAnnuel}"></td>
+                                                    <td th:text="${listeRecette.realisation}"></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td>Totale :</td>
+                                                    <td><strong th:text="${totalReel}">5131</strong></td>
+                                                    <td><strong th:text="${totalBudget}">511</strong></td>
+                                                    <td><strong th:text="${totalRea}">58%</strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow" style="margin-top: 16px;">
+                                <div class="card-header py-3" style="background: #64379f;">
+                                    <p class="m-0 fw-bold" style="color: var(--bs-white);">Depense</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id=dataTable1">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type Acte</th>
+                                                    <th>Reel</th>
+                                                    <th>Budget</th>
+                                                    <th>Realisation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="listeDepense:${listeDepense}">
+                                                <td th:text="${listeDepense.nomDepense}"></td>
+                                                <td th:text="${listeDepense.reel}"></td>
+                                                <td th:text="${listeDepense.budgetAnnuel}"></td>
+                                                <td th:text="${listeDepense.realisation}"></td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td>Totale :</td>
+                                                <td><strong th:text="${totalReeld}">5131</strong></td>
+                                                <td><strong th:text="${totalBudgetd}">511</strong></td>
+                                                <td><strong th:text="${totalRead}">58%</strong></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 justify-content-center">
+                        <div class="col-xl-7 offset-xl-0">
+                            <div class="card shadow" style="margin-top: 16px;">
+                                <div class="card-header py-3" style="background: #9854cb;">
+                                    <p class="m-0 fw-bold" style="color: black;">Benefice</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Reel</th>
+                                                    <th>Budget</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Recette</td>
+                                                    <td><strong th:text="${totalReel}">5131</strong></td>
+                                                    <td><strong th:text="${totalBudget}">511</strong></td>
+                                                    <td><strong th:text="${totalRea}">58%</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Depense</td>
+                                                    <td><strong th:text="${totalReeld}">5131</strong></td>
+                                                    <td><strong th:text="${totalBudgetd}">511</strong></td>
+                                                    <td><strong th:text="${totalRead}">58%</strong></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><strong th:text="${totalReelBenef}">5131</strong></td>
+                                                    <td><strong th:text="${totalBudgetBenef}">5165</strong></td>
+                                                    <td><strong th:text="${totalReaBenef}">58%</strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2023</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

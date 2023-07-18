@@ -123,4 +123,34 @@ public class DepenseDao {
         }
     }
 
+
+    public int getReelParIdDepense(int idMois, int annee,int idDepense, Connection con){
+        int rep = 0;
+        try {
+            //Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT sum FROM v_dashdepense where mois="+idMois+" and annee="+annee+" and iddepense="+idDepense+";");
+            while(res.next()){
+                rep = res.getInt(1);
+            }
+            //con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
+    }
+
+    public List<Depense> getListeDepenseFinal(List<Depense> liste,int idMois, int annee){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < liste.size(); i++) {
+                liste.get(i).setReel(getReelParIdDepense(idMois,annee,liste.get(i).getId(),con));
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return liste;
+    }
+
 }

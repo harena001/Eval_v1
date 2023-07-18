@@ -6,6 +6,27 @@ public class Acte {
     public String nomActe;
     public int budgetAnnuel;
     public String code;
+    public int realisation;
+
+
+
+    public int getRealisation() {
+        return realisation;
+    }
+
+    public void setRealisation(int realisation) {
+        this.realisation = realisation;
+    }
+
+    public int reel;
+
+    public int getReel() {
+        return reel;
+    }
+
+    public void setReel(int reel) {
+        this.reel = reel;
+    }
 
     public int getBudgetAnnuel() {
         return budgetAnnuel;

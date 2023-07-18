@@ -38,4 +38,8 @@ public class DepenseService {
         depenseDao.insertDepenseFait(depenseFait);
     }
 
+    public List<Depense> getListeDepenseFin(int idMois,int annee){
+        return depenseDao.getListeDepenseFinal(getListDepense(),idMois,annee);
+    }
+
 }

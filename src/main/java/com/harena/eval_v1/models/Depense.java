@@ -7,6 +7,25 @@ public class Depense {
     public int budgetAnnuel;
     public String code;
 
+    public int realisation;
+    public int reel;
+
+    public int getRealisation() {
+        return realisation;
+    }
+
+    public void setRealisation(int realisation) {
+        this.realisation = realisation;
+    }
+
+    public int getReel() {
+        return reel;
+    }
+
+    public void setReel(int reel) {
+        this.reel = reel;
+    }
+
     public int getBudgetAnnuel() {
         return budgetAnnuel;
     }
