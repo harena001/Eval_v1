@@ -29,7 +29,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="text-md-end dataTables_filter" id="dataTable_filter">
-                                        <div class="input-group input-group-sm float-end" style="width: 313px;"><input class="form-control" type="text" placeholder="Search"><button class="btn" type="submit"><i class="fa fa-search" style="color: #27104e;"></i></button></div>
+                                        <form action="/Emp/Search" method="get">
+                                        <div class="input-group input-group-sm float-end" style="width: 313px;">
+                                            <input class="form-control"
+                                                   name="str"
+                                                   type="text"
+                                                   placeholder="Search">
+                                            <button class="btn" type="submit"><i class="fa fa-search" style="color: #27104e;"></i></button>
+                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

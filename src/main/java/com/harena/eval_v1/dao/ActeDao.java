@@ -47,6 +47,28 @@ public class ActeDao {
         return rep;
     }
 
+    public List<Acte> getListActeParMois(){
+        List<Acte> rep = new ArrayList<>();
+        Acte acte;
+        try {
+            Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT * FROM actes;");
+            while(res.next()){
+                acte = new Acte();
+                acte.setId(res.getInt(1));
+                acte.setNomActe(res.getString(2));
+                acte.setBudgetAnnuel(res.getInt(3) / 12);
+                acte.setCode(res.getString(4));
+                rep.add(acte);
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
+    }
+
     public void saveActe(Acte acte) {
         try{
             Connection conn = getConnection();
@@ -150,7 +172,7 @@ public class ActeDao {
         try {
             Connection con = getConnection();
             for (int i = 0; i < list.size(); i++) {
-                list.get(i).setBudgetAnnuel(getBudgetAnnuel(list.get(i).getId(),con));
+                list.get(i).setBudgetAnnuel( (getBudgetAnnuel(list.get(i).getId(),con) ) / 12 );
                 //list.get(i).setBudget(getBudgetAnnuel(list.get(i).getIdActe(),con));
                 //list.get(i).setRealisation( (list.get(i).getReel() * 100 ) / getBudgetAnnuel(list.get(i).getIdActe(),con) );
             }

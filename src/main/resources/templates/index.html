@@ -41,8 +41,9 @@
                                 <select class="form-select" name="annee">
                                     <optgroup label="Annees">
                                         <option value="0" selected="">Annee</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2023">2023</option>
+                                        <div th:each="tabAnnee:${tabAnnee}">
+                                            <option th:value="${tabAnnee}" th:text="${tabAnnee}">2022</option>
+                                        </div>
                                     </optgroup>
                                 </select>
                                 <button class="btn btn-primary" type="submit">Voir</button>
@@ -94,7 +95,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
-                                        <table class="table my-0" id=dataTable1">
+                                        <table class="table my-0" id="dataTable10">
                                             <thead>
                                                 <tr>
                                                     <th>Type Acte</th>

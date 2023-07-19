@@ -3,6 +3,7 @@ package com.harena.eval_v1.dao;
 import com.harena.eval_v1.models.Acte;
 import com.harena.eval_v1.models.Depense;
 import com.harena.eval_v1.models.DepenseFait;
+import com.harena.eval_v1.services.DepenseService;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -37,6 +38,28 @@ public class DepenseDao {
                 depense.setId(res.getInt(1));
                 depense.setNomDepense(res.getString(2));
                 depense.setBudgetAnnuel(res.getInt(3));
+                depense.setCode(res.getString(4));
+                rep.add(depense);
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
+    }
+
+    public List<Depense> getListDepenseParMois(){
+        List<Depense> rep = new ArrayList<>();
+        Depense depense;
+        try {
+            Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT * FROM depenses;");
+            while(res.next()){
+                depense = new Depense();
+                depense.setId(res.getInt(1));
+                depense.setNomDepense(res.getString(2));
+                depense.setBudgetAnnuel(res.getInt(3) / 12);
                 depense.setCode(res.getString(4));
                 rep.add(depense);
             }
@@ -121,6 +144,63 @@ public class DepenseDao {
         catch(Exception e){
             System.out.println(e);
         }
+    }
+
+    public void insertUnDepenseFaitPourUneConex(DepenseFait depenseFait, Connection conn){
+        try{
+            Statement stmt = conn.createStatement();
+            ResultSet res;
+            String sql = "insert into depensefait(iddepense, prix, date) values ("+depenseFait.getIdDepense()+","+depenseFait.getPrix()+",'"+depenseFait.getDate()+"')";
+            //System.out.println(sql);
+            res = stmt.executeQuery(sql);
+            while(res.next()){
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void insertPlusieurDepenseFait(List<DepenseFait> list){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < list.size(); i++) {
+                insertUnDepenseFaitPourUneConex(list.get(i),con);
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<DepenseFait> setIdDepensePourCSV(List<DepenseFait> liste){
+        try {
+            Connection con = getConnection();
+            for (int i = 0; i < liste.size(); i++) {
+                int idDepense = getIdDepenseParCode(liste.get(i).getCode(),con);
+                liste.get(i).setIdDepense(idDepense);
+            }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return liste;
+    }
+
+    public int getIdDepenseParCode(String code, Connection con){
+        int rep = 0;
+        try {
+            //Connection con = getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT id FROM depenses where code='"+code+"';");
+            while(res.next()){
+                rep = res.getInt(1);
+            }
+            //con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rep;
     }
 
 

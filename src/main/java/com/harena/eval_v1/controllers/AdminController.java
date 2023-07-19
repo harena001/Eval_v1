@@ -1,5 +1,6 @@
 package com.harena.eval_v1.controllers;
 
+import com.harena.eval_v1.dao.OtherDao;
 import com.harena.eval_v1.fonctions.Fonction1;
 import com.harena.eval_v1.models.*;
 import com.harena.eval_v1.services.*;
@@ -18,7 +19,8 @@ public class AdminController {
     public static Fonction1 fonction1 = new Fonction1();
     public static ActeService acteService = new ActeService();
     public static DepenseService depenseService = new DepenseService();
-    public static DashRecetteService dashRecetteService = new DashRecetteService();
+    //public static DashRecetteService dashRecetteService = new DashRecetteService();
+    public OtherDao otherDao = new OtherDao();
 
     @GetMapping("/Admin/Medocs")
     public String listMedocs(Model model){
@@ -67,6 +69,8 @@ public class AdminController {
         model.addAttribute("totalReelBenef",totalReel + totalReeld);
         model.addAttribute("totalBudgetBenef",totalBudget + totalBudgetd);
         model.addAttribute("totalReaBenef",(totalRea + totalRead) / 2);
+
+        model.addAttribute("tabAnnee",otherDao.getListAnneeValide());
 
         return "index";
     }

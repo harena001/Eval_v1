@@ -8,6 +8,15 @@ public class DepenseFait {
     public int idDepense;
     public int prix;
     public Date date;
+    public String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public int getId() {
         return id;

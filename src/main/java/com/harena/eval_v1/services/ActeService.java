@@ -36,8 +36,11 @@ public class ActeService {
     }
 
 
+    public List<Acte> getListActeParMois(){
+        return acteDao.getListActeParMois();
+    }
     public List<Acte> getListeActeRecetteFin(int idMois,int annee){
-        return acteDao.getListeActeRecetteFinal(getListActe(),idMois,annee);
+        return acteDao.getListeActeRecetteFinal(getListActeParMois(),idMois,annee);
     }
 
 }

@@ -1,17 +1,17 @@
 package com.harena.eval_v1.controllers;
 
 import com.harena.eval_v1.fonctions.Fonction1;
-import com.harena.eval_v1.models.DepenseFait;
-import com.harena.eval_v1.models.DetailsGroupeActe;
-import com.harena.eval_v1.models.Patient;
+import com.harena.eval_v1.fonctions.Fonction2;
+import com.harena.eval_v1.models.*;
 import com.harena.eval_v1.services.*;
+import com.itextpdf.text.DocumentException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,6 +25,7 @@ public class EmployeController {
     public static Fonction1 fonction1 = new Fonction1();
     public static ActeService acteService = new ActeService();
     public static DepenseService depenseService = new DepenseService();
+    public static Fonction2 fonction2 = new Fonction2();
 
     @PostMapping("/Emp/verifLogin")
     public String verifLogin(@RequestParam(name = "email") String email,
@@ -43,6 +44,14 @@ public class EmployeController {
     @GetMapping("/Emp/toPageRecette")
     public String toRecettePage(Model model){
         model.addAttribute("listePatient",patientService.getAllPatient());
+        return "EmpListePatients";
+    }
+
+    @GetMapping("/Emp/Search")
+    public String search(Model model,
+                         @RequestParam(name = "str") String str){
+        List<Patient> liste = patientService.getAllPatient();
+        model.addAttribute("listePatient",fonction2.search(liste,str));
         return "EmpListePatients";
     }
 
@@ -87,23 +96,54 @@ public class EmployeController {
     @PostMapping("/Emp/ajoutDepense")
     public String insertDepenseFait(@RequestParam(name = "idDepense") String idDepense,
                                     @RequestParam(name = "prix") String prix,
-                                    @RequestParam(name = "date") String date){
-        DepenseFait depenseFait = new DepenseFait();
-        depenseFait.setIdDepense(Integer.parseInt(idDepense));
-        depenseFait.setPrix(Integer.parseInt(prix));
-        depenseFait.setDate(fonction1.stringToDate(date));
-        depenseService.insertDepenseFait(depenseFait);
+                                    @RequestParam(name = "jour") String jour,
+                                    @RequestParam(name = "annee") String annee,
+                                    @RequestParam("mois") List<String> mois){
+
+        int jourf = Integer.parseInt(jour);
+        int prixf = Integer.parseInt(prix);
+        int anneef = Integer.parseInt(annee);
+        int idDep = Integer.parseInt(idDepense);
+
+        int[] tabIntMois = fonction2.listToTabInt(mois);
+        depenseService.savePlusieur(jourf,tabIntMois,anneef,idDep,prixf);
         return "redirect:/Emp/Depenses";
     }
 
     @PostMapping("/Emp/validePayement")
-    public String validerPayement(@RequestParam(name = "idPatient") String idPatient){
+    public String validerPayement(@RequestParam(name = "idPatient") String idPatient) throws DocumentException, IOException {
         int idGroupeActe = detailsGroupeActeService.getIdGroupeActeAuDebut(Integer.parseInt(idPatient));
         if (idGroupeActe == 0){
             return "redirect:/Emp/voirDetailActe/"+idPatient;
         }
+
+        PDFGenerator pdfGenerator = new PDFGenerator();
+        String nomFichier = idGroupeActe+"_Facture_Patientid_"+idPatient+".pdf";
+        pdfGenerator.generatePDF("D:\\S6\\Evaluation\\Evaluation-Juillet\\"+nomFichier,Integer.parseInt(idPatient));
+
         acteService.validerPayement(idGroupeActe);
+
         return "redirect:/Emp/toPageRecette";
+    }
+
+
+
+    ////////////////////////// CSV ////////////////
+
+    public CSVImporter csvImporter = new CSVImporter();
+    @PostMapping("/import-csv")
+    public String importCSV(@RequestParam("file") MultipartFile file, Model model) {
+        try {
+            List<String[]> data = csvImporter.importCSV(file);
+
+            depenseService.insertCSV(data);
+
+            model.addAttribute("data", data);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Gérer les erreurs d'importation CSV
+        }
+        return "redirect:/Emp/Depenses";
     }
 
 

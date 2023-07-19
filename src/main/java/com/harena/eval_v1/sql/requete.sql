@@ -18,3 +18,5 @@ create or replace view v_dashDepense as
 select sum(prix) from v_detailsActe where statue=false;
 
 select nomacte,EXTRACT(Month from date)as mois,EXTRACT(year from date)as annee,sum(prix) from v_detailsActe group by mois,annee,nomacte;
+
+select annee from v_dashRecette union select annee from v_dashDepense;
