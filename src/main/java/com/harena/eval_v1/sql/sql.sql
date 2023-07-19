@@ -19,7 +19,7 @@ create table Patients (
     id serial,
     nomPatient varchar(100),
     dateNaissance date,
-    genre char,
+    genre varchar(50),
     primary key (id)
 );
 
